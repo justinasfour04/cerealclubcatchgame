@@ -5,6 +5,7 @@ export default abstract class FallingObject {
     protected ctx: CanvasRenderingContext2D,
     protected xPos: number,
     protected dy: number,
+    protected image: ImageBitmap | null = null,
   ) {
     this.yPos = -25;
   }
@@ -13,7 +14,32 @@ export default abstract class FallingObject {
     return this.yPos;
   }
 
-  abstract get hitbox(): number[];
-  abstract draw(): void;
-  abstract update(secondsPassed: number): void;
+  get w() {
+    return this.image?.width ?? 0;
+  }
+
+  get h() {
+    return this.image?.height ?? 0;
+  }
+
+  get hitbox(): number[] {
+    return [this.xPos, this.yPos, this.w, this.h];
+  }
+
+  draw(): void {
+    if (this.image !== null) {
+      if (this.xPos > this.ctx.canvas.width - this.w) {
+        this.xPos -= this.w;
+      }
+      this.ctx.drawImage(this.image, this.xPos, this.yPos);
+    }
+
+    this.ctx.strokeStyle = 'black';
+    const [x, y, w, h] = this.hitbox;
+    this.ctx.strokeRect(x, y, w, h);
+  }
+
+  update(secondsPassed: number): void {
+    this.yPos += this.dy * secondsPassed;
+  }
 }
