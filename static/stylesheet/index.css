@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css?family=Heebo&display=swap');
+
+body {
+  display: block;
+  background-color: rgb(180 202 217);
+  box-sizing: border-box;
+  font-size: 1em;
+  font-weight: 700;
+  font-family: 'Heebo';
+  overflow: scroll;
+  margin: 25px;
+}
+
+body::-webkit-scrollbar,
+.board-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.container {
+  height: 100%;
+}
+
+canvas {
+  border: 5px black solid;
+  border-radius: 15px;
+  image-rendering: optimizeSpeed;             /* Older versions of FF          */
+  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
+  image-rendering: -webkit-optimize-contrast; /* Safari                        */
+  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
+  image-rendering: pixelated;                 /* Awesome future-browsers       */
+  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+}
+
+#menuimgflip {
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+#menuimgflip,
+#menuimg {
+  width: 30%;
+  margin: 0;
+  position: relative;
+  bottom: 9rem;
+  left: 16rem;
+}
+
+#leaderboardBack {
+  font-size: 0.5rem;
+  margin: 0;
+}
+
+#leaderboardText {
+  flex-basis: 75%;
+  text-align: center;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.action_button_sm {
+  background: #fff;
+  backface-visibility: hidden;
+  border-radius: .5rem;
+  border-style: solid;
+  border-width: .125rem;
+  box-sizing: border-box;
+  color: #212121;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Heebo';
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  padding: .875rem 1.125rem;
+  position: relative;
+  text-decoration: none;
+  transform: translateZ(0) scale(1);
+  transition: transform .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 0 3rem;
+  width: 5rem;
+}
+
+.action_button {
+  background: #fff;
+  backface-visibility: hidden;
+  border-radius: .5rem;
+  border-style: solid;
+  border-width: .125rem;
+  box-sizing: border-box;
+  color: #212121;
+  cursor: pointer;
+  display: inline-block;
+  font-family: 'Heebo';
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  padding: .875rem 1.125rem;
+  position: relative;
+  text-decoration: none;
+  transform: translateZ(0) scale(1);
+  transition: transform .2s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  margin: 0 3rem;
+  width: 20rem;
+}
+
+.action_button_sm:not(:disabled):hover,
+.action_button:not(:disabled):hover {
+  transform: scale(1.05);
+}
+
+.action_button_sm:not(:disabled):hover:active,
+.action_button:not(:disabled):hover:active {
+  transform: scale(1.05) translateY(.125rem);
+}
+
+.action_button_sm:focus,
+.action_button:focus {
+  outline: 0 solid transparent;
+}
+
+.action_button_sm:focus::before,
+.action_button:focus::before {
+  content: "";
+  left: calc(-1*.375rem);
+  pointer-events: none;
+  position: absolute;
+  top: calc(-1*.375rem);
+  transition: border-radius;
+  user-select: none;
+}
+
+.action_button_sm:focus:not(:focus-visible),
+.action_button:focus:not(:focus-visible) {
+  outline: 0 solid transparent;
+}
+
+.action_button_sm:focus:not(:focus-visible):before,
+.action_button:focus:not(:focus-visible):before {
+  border-width: 0;
+}
+.action_button_sm:not(:disabled):active,
+.action_button:not(:disabled):active {
+  transform: translateY(.125rem);
+}
+
+.board-wrapper {
+  height: 80%;
+  width: 50%;
+  border: 2px solid #000;
+  overflow-y: scroll;
+}
+
+.score {
+  position: relative;
+  top: 60px;
+  display: flex;
+  flex-direction: row;
+}
+
+.scoreText {
+  padding-left: 1rem;
+  margin: 0px;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.titleText {
+  font-size: 3rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+}
+
+
+/* Portrait */
+@media only screen and (min-device-width: 280px) and (max-device-width: 900px) and (orientation: portrait) {
+  .moveUp {
+    border-left: 4rem transparent solid;
+    border-right: 4rem transparent solid;
+    border-bottom: 4rem #fff solid;
+    margin-bottom: 1.5rem;
+  }
+
+  .moveDown {
+    border-left: 4rem transparent solid;
+    border-right: 4rem transparent solid;
+    border-top: 4rem #fff solid;
+    margin-top: 1.5rem
+  }
+
+  .moveUp,
+  .moveDown {
+    opacity: 0.5;
+    position: relative;
+    bottom: 15rem;
+    left: calc(100% / 3);
+    height: fit-content;
+    width: fit-content;
+  }
+}
+
+/* Landscape */
+@media only screen and (min-device-width: 280px) and (max-device-width: 900px) and (orientation: landscape) { 
+  .moveUp {
+    border-left: 2rem transparent solid;
+    border-right: 2rem transparent solid;
+    border-bottom: 2rem #fff solid;
+    margin-bottom: 0.5rem;
+  }
+
+  .moveDown {
+    border-left: 2rem transparent solid;
+    border-right: 2rem transparent solid;
+    border-top: 2rem #fff solid;
+    margin-top: 0.5rem
+  }
+
+  .moveUp,
+  .moveDown {
+    opacity: 0.7;
+    position: relative;
+    bottom: 6.5rem;
+    right: 40%;
+    width: fit-content;
+    height: fit-content;
+  }
+}
