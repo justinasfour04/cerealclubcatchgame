@@ -16,7 +16,7 @@ export default class MaxHeap<T extends FallingObject> {
   }
 
   get max() {
-    return this.heap[0].y;
+    return this.heap[0]?.y ?? 0;
   }
 
   private parent(position: number) {
@@ -56,11 +56,10 @@ export default class MaxHeap<T extends FallingObject> {
     this.maxHeapify(0);
   }
 
-  delete() {
-    [this.heap[0]] = [this.heap[this.size - 1]];
-    this.heap = this.heap.slice(0, -1);
-    this.maxHeapify(0);
-    console.log(this.heap.length);
+  delete(position: number) {
+    [this.heap[position]] = [this.heap[this.size - 1]];
+    this.heap.pop();
+    this.maxHeapify(position);
   }
 
   maxHeapify(position: number) {

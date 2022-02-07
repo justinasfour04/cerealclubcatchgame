@@ -33,10 +33,6 @@ export default abstract class FallingObject {
       }
       this.ctx.drawImage(this.image, this.xPos, this.yPos);
     }
-
-    this.ctx.strokeStyle = 'black';
-    const [x, y, w, h] = this.hitbox;
-    this.ctx.strokeRect(x, y, w, h);
   }
 
   update(secondsPassed: number): void {

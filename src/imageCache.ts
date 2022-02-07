@@ -1,14 +1,16 @@
 import Cereal from '../static/img/cereal.png';
 import Bomb from '../static/img/bomb.png';
 import Heart from '../static/img/heart.png';
+import Flake from '../static/img/flake.png';
 import { loadImage } from './util';
 
-type CacheValue = ImageBitmap | Array<ImageBitmap>;
+type CacheValue = ImageBitmap;
 
 export enum CacheKey {
   CEREAL,
   HEART,
   BOMB,
+  FLAKE,
 }
 
 const cache: Map<CacheKey, CacheValue> = new Map();
@@ -44,7 +46,18 @@ export default class ImageCache {
       258,
       268,
       {
-        resizeWidth: canvas.width / 10,
+        resizeWidth: canvas.width / 15,
+        resizeQuality: 'medium',
+      },
+    ));
+    cache.set(CacheKey.FLAKE, await loadImage(
+      Flake,
+      0,
+      0,
+      290,
+      216,
+      {
+        resizeWidth: canvas.width / 15,
         resizeQuality: 'medium',
       },
     ));

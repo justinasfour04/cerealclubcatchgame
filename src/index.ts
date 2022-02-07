@@ -4,6 +4,7 @@ import '../static/stylesheet/index.css';
 import ImageCache from './imageCache';
 import GameState from './gameState';
 import CerealBowl from './cerealBowl';
+import Lives from './lives';
 import { randomNumber } from './util';
 import ObjectFactory from './obstacleFactory';
 
@@ -16,6 +17,7 @@ canvas.height = window.innerHeight / 1.05;
 const gameState = new GameState();
 const cereal = new CerealBowl(ctx as CanvasRenderingContext2D, canvas.width / 2);
 const obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
+const lives = new Lives(ctx as CanvasRenderingContext2D);
 
 let then: number;
 let elapsed: number;
@@ -23,7 +25,7 @@ let elapsed: number;
 const url = 'https://lit-shelf-93432.herokuapp.com';
 
 async function saveHighscore() {
-  const playerName = localStorage.getItem('playername');
+  // const playerName = localStorage.getItem('playername');
   const highscore = Math.max(gameState.score, gameState.highscore);
   localStorage.setItem('highscore', highscore.toString(10));
   // if (playerName) {
@@ -139,7 +141,7 @@ async function initializeHighscore() {
 
 function update(secondsPassed: number = 1) {
   obstacleFactory.update(secondsPassed);
-  obstacleFactory.deleteOldestObstacles();
+  obstacleFactory.deleteObjectOffScreen();
 }
 
 async function draw() {
@@ -152,8 +154,9 @@ async function draw() {
     ctx.fill();
     ctx.restore();
 
-    obstacleFactory.draw();
     cereal.draw();
+    obstacleFactory.draw();
+    lives.draw(cereal.lives);
   }
 }
 
@@ -162,22 +165,22 @@ function drawGameScreen() {
   if (container !== null) {
     container.innerHTML = '';
 
-    // const scoreDiv = document.createElement('div');
-    // scoreDiv.className = 'score';
-    // scoreDiv.style.width = canvas.width.toString(10);
+    const scoreDiv = document.createElement('div');
+    scoreDiv.className = 'score';
+    scoreDiv.style.width = canvas.width.toString(10);
 
-    // const scoreText = document.createElement('p');
-    // scoreText.className = 'scoreText';
-    // scoreText.id = '_score';
+    const scoreText = document.createElement('p');
+    scoreText.className = 'scoreText';
+    scoreText.id = '_score';
 
-    // const highscoreText = document.createElement('p');
-    // highscoreText.className = 'scoreText';
-    // highscoreText.id = '_highscore';
+    const highscoreText = document.createElement('p');
+    highscoreText.className = 'scoreText';
+    highscoreText.id = '_highscore';
 
-    // scoreDiv.appendChild(scoreText);
-    // scoreDiv.appendChild(highscoreText);
+    scoreDiv.appendChild(scoreText);
+    scoreDiv.appendChild(highscoreText);
 
-    // container.appendChild(scoreDiv);
+    container.appendChild(scoreDiv);
     container.appendChild(canvas);
   }
 }
@@ -381,43 +384,32 @@ function drawGameScreen() {
 //   }
 // }
 
-// function setScore() {
-//   const closestObstacle = obstacleFactory.getClosestObstacle();
-//   const obstaclePassed = friend.passedObstacle(closestObstacle);
-//   const isCollision = friend.checkCollision(obstacleFactory.getClosestObstacleIn(friend.lane));
+function setScore() {
+  const highscoreValue = document.createElement('span');
+  highscoreValue.textContent = gameState.highscore.toString(10);
+  const highscore = document.getElementById('_highscore');
+  if (highscore) {
+    highscore.innerHTML = `High Score: ${highscoreValue.innerHTML}`;
+  }
 
-//   if (obstaclePassed && !isCollision) {
-//     gameState.score += 1;
-//   }
+  const scoreValue = document.createElement('span');
+  scoreValue.textContent = gameState.score.toString(10);
+  const score = document.getElementById('_score');
+  if (score) {
+    score.innerHTML = `Score: ${scoreValue.innerHTML}`;
+  }
+}
 
-//   const highscoreValue = document.createElement('span');
-//   highscoreValue.textContent = gameState.highscore.toString(10);
-//   const highscore = document.getElementById('_highscore');
-//   if (highscore) {
-//     highscore.innerHTML = `High Score: ${highscoreValue.innerHTML}`;
-//   }
+function lostLife() {
+  obstacleFactory.reset();
+}
 
-//   const scoreValue = document.createElement('span');
-//   scoreValue.textContent = gameState.score.toString(10);
-//   const score = document.getElementById('_score');
-//   if (score) {
-//     score.innerHTML = `Score: ${scoreValue.innerHTML}`;
-//   }
-// }
-
-// function youCrashed() {
-//   return friend.checkCollision(obstacleFactory.getClosestObstacleIn(friend.lane));
-// }
-
-// function resetGame() {
-//   acceleration = 0;
-//   gameState.score = 0;
-//   gameState.highscore = parseInt(localStorage.getItem('highscore') ?? '0', 10);
-//   backgroundMusic.currentTime = 0;
-//   friend.reset();
-//   gameBackgroud.reset();
-//   obstacleFactory.reset();
-// }
+function resetGame() {
+  cereal.reset();
+  obstacleFactory.reset();
+  gameState.score = 0;
+  gameState.highscore = parseInt(localStorage.getItem('highscore') ?? '0', 10);
+}
 
 // async function mainLoopOnlyGame(frameTime?: number) {
 //   if (frameTime) {
@@ -455,7 +447,17 @@ async function mainLoop(frameTime?: number) {
       gameState.isGameScreenDrawn = true;
     }
 
+    const collisionType = cereal.checkCollision(obstacleFactory, gameState);
+    if (collisionType === 'bomb') {
+      lostLife();
+      if (cereal.lives === 0) {
+        saveHighscore();
+        resetGame();
+      }
+    }
+
     update(Math.min(elapsed, 0.1));
+    setScore();
     obstacleFactory.create();
     draw();
 

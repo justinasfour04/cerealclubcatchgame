@@ -1,4 +1,5 @@
 import FallingBomb from './fallingBomb';
+import FallingCereal from './fallingCereal';
 import FallingObject from './fallingObject';
 import MaxHeap from './maxHeap';
 import { randomNumber } from './util';
@@ -39,9 +40,9 @@ export default class ObjectFactory {
     });
   }
 
-  deleteOldestObstacles() {
+  deleteObjectOffScreen() {
     if (this.objects.max > this.ctx.canvas.height) {
-      this.objects.delete();
+      this.objects.delete(0);
     }
   }
 
@@ -49,7 +50,10 @@ export default class ObjectFactory {
     const left = 0;
     const right = this.ctx.canvas.width;
     const randomX = randomNumber(left, right);
-    const randomDy = randomNumber(50, 150);
-    return new FallingBomb(this.ctx, randomX, randomDy);
+    const randomDy = randomNumber(100, 250);
+    const randomCharacter = randomNumber(0, 10000);
+    return randomCharacter % 2 === 0
+      ? new FallingBomb(this.ctx, randomX, randomDy)
+      : new FallingCereal(this.ctx, randomX, randomDy);
   }
 }
