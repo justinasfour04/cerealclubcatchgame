@@ -2,7 +2,7 @@
 
 body {
   display: block;
-  background-color: rgb(180 202 217);
+  background-color: rgb(109, 124, 134);
   box-sizing: border-box;
   font-size: 1em;
   font-weight: 700;
@@ -23,12 +23,6 @@ body::-webkit-scrollbar,
 canvas {
   border: 5px black solid;
   border-radius: 15px;
-  image-rendering: optimizeSpeed;             /* Older versions of FF          */
-  image-rendering: -moz-crisp-edges;          /* FF 6.0+                       */
-  image-rendering: -webkit-optimize-contrast; /* Safari                        */
-  image-rendering: -o-crisp-edges;            /* OS X & Windows Opera (12.02+) */
-  image-rendering: pixelated;                 /* Awesome future-browsers       */
-  -ms-interpolation-mode: nearest-neighbor;   /* IE                            */
 }
 
 .row {

@@ -148,7 +148,7 @@ async function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.save();
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#e6e6e6';
     ctx.rect(0, 0, canvas.width, canvas.height);
     ctx.fill();
     ctx.restore();
