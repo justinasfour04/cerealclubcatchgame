@@ -50,7 +50,7 @@ export default class ObjectFactory {
     const left = 0;
     const right = this.ctx.canvas.width;
     const randomX = randomNumber(left, right);
-    const randomDy = randomNumber(100, 250);
+    const randomDy = randomNumber(300, 500);
     const randomCharacter = randomNumber(0, 10000);
     return randomCharacter % 2 === 0
       ? new FallingBomb(this.ctx, randomX, randomDy)

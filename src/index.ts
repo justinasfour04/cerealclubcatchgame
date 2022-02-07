@@ -5,19 +5,18 @@ import ImageCache from './imageCache';
 import GameState from './gameState';
 import CerealBowl from './cerealBowl';
 import Lives from './lives';
-import { randomNumber } from './util';
 import ObjectFactory from './obstacleFactory';
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 (ctx as CanvasRenderingContext2D).imageSmoothingEnabled = false;
-canvas.width = window.innerWidth / 2;
+canvas.width = window.innerWidth < 1000 ? window.innerWidth / 1.1 : window.innerWidth / 2;
 canvas.height = window.innerHeight / 1.05;
 
-const gameState = new GameState();
-const cereal = new CerealBowl(ctx as CanvasRenderingContext2D, canvas.width / 2);
-const obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
-const lives = new Lives(ctx as CanvasRenderingContext2D);
+let gameState: GameState;
+let cereal: CerealBowl;
+let obstacleFactory: ObjectFactory;
+let lives: Lives;
 
 let then: number;
 let elapsed: number;
@@ -468,7 +467,16 @@ async function mainLoop(frameTime?: number) {
   }
 }
 
+function init() {
+  gameState = new GameState();
+  cereal = new CerealBowl(ctx as CanvasRenderingContext2D);
+  obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
+  lives = new Lives(ctx as CanvasRenderingContext2D);
+}
+
 (async () => {
   await ImageCache.loadAllImages(canvas);
+  init();
+  // window.screen.orientation.lock('portrait');
   await mainLoop();
 })();

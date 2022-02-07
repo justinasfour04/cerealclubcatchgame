@@ -19,25 +19,24 @@ export default class CerealBowl {
 
   #lives: number;
 
-  constructor(private ctx: CanvasRenderingContext2D, xPos: number) {
-    this.#xPos = xPos;
-    this.#yPos = (ctx as CanvasRenderingContext2D).canvas.height;
-    this.#image = null;
+  constructor(private ctx: CanvasRenderingContext2D) {
+    const { canvas } = ctx;
+    const canvasLeftX = canvas.getBoundingClientRect().left;
+
+    this.#image = ImageCache.getImage(CacheKey.CEREAL) as ImageBitmap;
+    this.#xPos = canvas.width / 2 - this.#image.width / 2;
+    this.#yPos = canvas.height - this.#image.height;
     this.#hitbox = [80, 155, 420, 345]; // [leftX, topY, rightX, bottomY]
     this.#lives = NUM_LIVES;
 
-    const { canvas } = ctx;
     window.addEventListener('mousemove', (event) => {
       event.preventDefault();
-      const canvasLeftX = canvas.getBoundingClientRect().left;
       this.#xPos = event.clientX - canvasLeftX - (this.#image as ImageBitmap).width / 2;
-      this.#yPos = canvas.height - (this.#image as ImageBitmap).height;
     });
 
     window.addEventListener('touchmove', (event) => {
+      this.#xPos = event.touches[0].pageX - canvasLeftX - (this.#image as ImageBitmap).width / 2;
       event.preventDefault();
-      const canvasLeftX = canvas.getBoundingClientRect().left;
-      this.#xPos = event.touches[0].clientX - canvasLeftX - (this.#image as ImageBitmap).width / 2;
     }, {
       passive: false,
     });
@@ -52,10 +51,6 @@ export default class CerealBowl {
   }
 
   draw() {
-    if (this.#image === null) {
-      this.#image = ImageCache.getImage(CacheKey.CEREAL) as ImageBitmap;
-    }
-
     this.ctx.drawImage(this.#image as ImageBitmap, this.#xPos, this.#yPos);
 
     // const scaleFactor = this.#image.width / 500;
