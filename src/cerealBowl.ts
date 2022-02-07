@@ -21,7 +21,6 @@ export default class CerealBowl {
 
   constructor(private ctx: CanvasRenderingContext2D) {
     const { canvas } = ctx;
-    const canvasLeftX = canvas.getBoundingClientRect().left;
 
     this.#image = ImageCache.getImage(CacheKey.CEREAL) as ImageBitmap;
     this.#xPos = canvas.width / 2 - this.#image.width / 2;
@@ -30,12 +29,16 @@ export default class CerealBowl {
     this.#lives = NUM_LIVES;
 
     window.addEventListener('mousemove', (event) => {
+      if (this.#image) {
+        this.#xPos = event.pageX - canvas.offsetLeft - this.#image.width / 2;
+      }
       event.preventDefault();
-      this.#xPos = event.clientX - canvasLeftX - (this.#image as ImageBitmap).width / 2;
     });
 
     window.addEventListener('touchmove', (event) => {
-      this.#xPos = event.touches[0].pageX - canvasLeftX - (this.#image as ImageBitmap).width / 2;
+      if (this.#image) {
+        this.#xPos = event.touches[0].pageX - canvas.offsetLeft - this.#image.width / 2;
+      }
       event.preventDefault();
     }, {
       passive: false,
