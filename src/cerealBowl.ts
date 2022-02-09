@@ -31,6 +31,12 @@ export default class CerealBowl {
     window.addEventListener('mousemove', (event) => {
       if (this.#image) {
         this.#xPos = event.pageX - canvas.offsetLeft - this.#image.width / 2;
+        const scaleFactor = this.#image.width / 500;
+        if (this.#xPos < 0) {
+          this.#xPos = -this.#hitbox[0] * scaleFactor;
+        } else if (this.#xPos + this.#image.width > canvas.width) {
+          this.#xPos = canvas.width - this.#image.width + this.#hitbox[0] * scaleFactor;
+        }
       }
       event.preventDefault();
     });
