@@ -1,12 +1,12 @@
 {
   "name": "garbage-collector",
-  "homepage": "https://typicalarcade.com",
+  "homepage": "https://www.typicalarcade.com",
   "version": "1.0.0",
   "description": "",
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build && echo 'https://typicalarcade.com' > ./dist/CNAME",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "start": "webpack serve --open --config webpack.dev.js",
     "watch": "webpack --watch",
