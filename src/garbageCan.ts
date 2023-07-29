@@ -1,5 +1,5 @@
 import FallingBomb from './fallingBomb';
-import FallingCereal from './fallingCereal';
+import FallingGarbageBag from './fallingGarbageBag';
 import GameState from './gameState';
 import ImageCache, { CacheKey } from './imageCache';
 import ObjectFactory from './obstacleFactory';
@@ -8,7 +8,7 @@ const NUM_LIVES = 3;
 
 export type CollisionType = 'bomb' | 'cereal' | 'none';
 
-export default class CerealBowl {
+export default class GarbageCan {
   #xPos: number;
 
   #yPos: number;
@@ -22,7 +22,7 @@ export default class CerealBowl {
   constructor(private ctx: CanvasRenderingContext2D) {
     const { canvas } = ctx;
 
-    this.#image = ImageCache.getImage(CacheKey.CEREAL) as ImageBitmap;
+    this.#image = ImageCache.getImage(CacheKey.GARBAGE_CAN) as ImageBitmap;
     this.#xPos = canvas.width / 2 - this.#image.width / 2;
     this.#yPos = canvas.height - this.#image.height;
     this.#hitbox = [80, 155, 420, 345]; // [leftX, topY, rightX, bottomY]
@@ -95,7 +95,7 @@ export default class CerealBowl {
             return 'bomb';
           }
 
-          if (item instanceof FallingCereal) {
+          if (item instanceof FallingGarbageBag) {
             gameState.score += 1;
             objects.delete(i);
             return 'cereal';

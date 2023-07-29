@@ -1,24 +1,24 @@
-import Cereal from '../static/img/cereal.png';
+import GarbageCan from '../static/img/garbage-can.png';
 import Bomb from '../static/img/bomb.png';
 import Heart from '../static/img/heart.png';
-import Flake from '../static/img/flake.png';
+import GarbageBag from '../static/img/garbage-bag.png';
 import { loadImage } from './util';
 
 type CacheValue = ImageBitmap;
 
 export enum CacheKey {
-  CEREAL,
+  GARBAGE_CAN,
   HEART,
   BOMB,
-  FLAKE,
+  GARBAGE_BAG,
 }
 
 const cache: Map<CacheKey, CacheValue> = new Map();
 
 export default class ImageCache {
   static async loadAllImages(canvas: HTMLCanvasElement) {
-    cache.set(CacheKey.CEREAL, await loadImage(
-      Cereal,
+    cache.set(CacheKey.GARBAGE_CAN, await loadImage(
+      GarbageCan,
       0,
       0,
       500,
@@ -50,8 +50,8 @@ export default class ImageCache {
         resizeQuality: 'medium',
       },
     ));
-    cache.set(CacheKey.FLAKE, await loadImage(
-      Flake,
+    cache.set(CacheKey.GARBAGE_BAG, await loadImage(
+      GarbageBag,
       0,
       0,
       290,

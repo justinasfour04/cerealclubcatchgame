@@ -1,5 +1,5 @@
 import FallingBomb from './fallingBomb';
-import FallingCereal from './fallingCereal';
+import FallingGarbageBag from './fallingGarbageBag';
 import FallingObject from './fallingObject';
 import MaxHeap from './maxHeap';
 import { randomNumber } from './util';
@@ -54,6 +54,6 @@ export default class ObjectFactory {
     const randomCharacter = randomNumber(0, 10000);
     return randomCharacter % 2 === 0
       ? new FallingBomb(this.ctx, randomX, randomDy)
-      : new FallingCereal(this.ctx, randomX, randomDy);
+      : new FallingGarbageBag(this.ctx, randomX, randomDy);
   }
 }

@@ -3,7 +3,7 @@ import '../static/stylesheet/index.css';
 
 import ImageCache from './imageCache';
 import GameState from './gameState';
-import CerealBowl from './cerealBowl';
+import GarbageCan from './garbageCan';
 import Lives from './lives';
 import ObjectFactory from './obstacleFactory';
 
@@ -14,7 +14,7 @@ canvas.width = window.innerWidth < 1000 ? window.innerWidth / 1.1 : window.inner
 canvas.height = window.innerHeight / 1.05;
 
 let gameState: GameState;
-let cereal: CerealBowl;
+let cereal: GarbageCan;
 let obstacleFactory: ObjectFactory;
 let lives: Lives;
 
@@ -469,7 +469,7 @@ async function mainLoop(frameTime?: number) {
 
 function init() {
   gameState = new GameState();
-  cereal = new CerealBowl(ctx as CanvasRenderingContext2D);
+  cereal = new GarbageCan(ctx as CanvasRenderingContext2D);
   obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
   lives = new Lives(ctx as CanvasRenderingContext2D);
 }
