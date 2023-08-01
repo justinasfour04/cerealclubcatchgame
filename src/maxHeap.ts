@@ -48,9 +48,9 @@ export class MaxHeap<T extends FallingObject> {
         this.heap[currentIndex],
         this.heap[Math.floor(currentIndex / 2)],
       ] = [
-          this.heap[Math.floor(currentIndex / 2)],
-          this.heap[currentIndex],
-        ];
+        this.heap[Math.floor(currentIndex / 2)],
+        this.heap[currentIndex],
+      ];
       currentIndex = Math.floor(currentIndex / 2);
     }
     this.maxHeapify(0);
@@ -71,18 +71,18 @@ export class MaxHeap<T extends FallingObject> {
             this.heap[2 * position],
             this.heap[position],
           ] = [
-              this.heap[position],
-              this.heap[2 * position],
-            ];
+            this.heap[position],
+            this.heap[2 * position],
+          ];
           this.maxHeapify(2 * position);
         } else {
           [
             this.heap[2 * position + 1],
             this.heap[position],
           ] = [
-              this.heap[position],
-              this.heap[2 * position + 1],
-            ];
+            this.heap[position],
+            this.heap[2 * position + 1],
+          ];
           this.maxHeapify(2 * position + 1);
         }
       }
