@@ -2,7 +2,9 @@ import GarbageCan from '../static/img/garbage-can.png';
 import Bomb from '../static/img/bomb.png';
 import Heart from '../static/img/heart.png';
 import GarbageBag from '../static/img/garbage-bag.png';
-import { loadImage } from './util';
+import Background1 from '../static/img/background1.png';
+import Background2 from '../static/img/background2.png';
+import { loadBackground, loadImage } from './util';
 
 type CacheValue = ImageBitmap;
 
@@ -11,59 +13,73 @@ export enum CacheKey {
   HEART,
   BOMB,
   GARBAGE_BAG,
+  BACKGROUND_1,
+}
+
+export enum BackgroundKey {
+  ONE,
+  TWO,
 }
 
 const cache: Map<CacheKey, CacheValue> = new Map();
+const backgrounds: Map<BackgroundKey, HTMLImageElement> = new Map();
 
-export default class ImageCache {
+export class ImageCache {
   static async loadAllImages(canvas: HTMLCanvasElement) {
     cache.set(CacheKey.GARBAGE_CAN, await loadImage(
       GarbageCan,
       0,
       0,
       500,
-      500,
+      324,
       {
-        resizeWidth: canvas.width / 4,
-        resizeQuality: 'medium',
+        resizeHeight: canvas.height / 6,
+        resizeQuality: 'high',
       },
     ));
     cache.set(CacheKey.HEART, await loadImage(
       Heart,
       0,
       0,
-      293,
-      302,
+      243,
+      225,
       {
-        resizeWidth: canvas.width / 16,
-        resizeQuality: 'medium',
+        resizeHeight: canvas.height / 14,
+        resizeQuality: 'high',
       },
     ));
     cache.set(CacheKey.BOMB, await loadImage(
       Bomb,
       0,
       0,
-      258,
-      268,
+      210,
+      251,
       {
-        resizeWidth: canvas.width / 15,
-        resizeQuality: 'medium',
+        resizeHeight: canvas.height / 8,
+        resizeQuality: 'high',
       },
     ));
     cache.set(CacheKey.GARBAGE_BAG, await loadImage(
       GarbageBag,
       0,
       0,
-      290,
-      216,
+      251,
+      251,
       {
-        resizeWidth: canvas.width / 15,
-        resizeQuality: 'medium',
+        resizeHeight: canvas.height / 6,
+        resizeQuality: 'high',
       },
     ));
+
+    backgrounds.set(BackgroundKey.ONE, await loadBackground(Background1));
+    backgrounds.set(BackgroundKey.TWO, await loadBackground(Background2));
   }
 
   static getImage(key: CacheKey) {
     return cache.get(key);
+  }
+
+  static getBackground(key: BackgroundKey): HTMLImageElement {
+    return backgrounds.get(key) as HTMLImageElement;
   }
 }

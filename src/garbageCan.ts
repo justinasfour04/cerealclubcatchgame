@@ -1,14 +1,15 @@
-import FallingBomb from './fallingBomb';
-import FallingGarbageBag from './fallingGarbageBag';
-import GameState from './gameState';
-import ImageCache, { CacheKey } from './imageCache';
-import ObjectFactory from './obstacleFactory';
+import { FallingBomb } from './fallingBomb';
+import { FallingGarbageBag } from './fallingGarbageBag';
+import { GameState } from './gameState';
+import { ImageCache, CacheKey, BackgroundKey } from './imageCache';
+import { ObjectFactory } from './obstacleFactory';
 
 const NUM_LIVES = 3;
+const BACKGROUND_SWITCH = 10;
 
-export type CollisionType = 'bomb' | 'cereal' | 'none';
+export type CollisionType = 'bomb' | 'garbageBag' | 'none';
 
-export default class GarbageCan {
+export class GarbageCan {
   #xPos: number;
 
   #yPos: number;
@@ -25,17 +26,16 @@ export default class GarbageCan {
     this.#image = ImageCache.getImage(CacheKey.GARBAGE_CAN) as ImageBitmap;
     this.#xPos = canvas.width / 2 - this.#image.width / 2;
     this.#yPos = canvas.height - this.#image.height;
-    this.#hitbox = [80, 155, 420, 345]; // [leftX, topY, rightX, bottomY]
+    this.#hitbox = [50, 18, this.#image.width - 50, 5]; // [leftX, topY, rightX, bottomY]
     this.#lives = NUM_LIVES;
 
     window.addEventListener('mousemove', (event) => {
       if (this.#image) {
         this.#xPos = event.pageX - canvas.offsetLeft - this.#image.width / 2;
-        const scaleFactor = this.#image.width / 500;
         if (this.#xPos < 0) {
-          this.#xPos = -this.#hitbox[0] * scaleFactor;
+          this.#xPos = -this.#hitbox[0];
         } else if (this.#xPos + this.#image.width > canvas.width) {
-          this.#xPos = canvas.width - this.#image.width + this.#hitbox[0] * scaleFactor;
+          this.#xPos = canvas.width - this.#image.width + this.#hitbox[0];
         }
       }
       event.preventDefault();
@@ -62,21 +62,23 @@ export default class GarbageCan {
   draw() {
     this.ctx.drawImage(this.#image as ImageBitmap, this.#xPos, this.#yPos);
 
-    // const scaleFactor = this.#image.width / 500;
-    // const [left, top, right, bottom] = this.#hitbox.map((v) => v * scaleFactor);
-    // const xLeft = this.#xPos + left;
-    // const xRight = this.#xPos + right;
-    // const width = xRight - xLeft;
+    // this.drawCollisionBox();
+  }
 
-    // this.ctx.strokeStyle = 'black';
-    // this.ctx.strokeRect(this.#xPos + left, this.#yPos + top, width, bottom);
+  drawCollisionBox() {
+    const [left, top, right, bottom] = this.#hitbox;
+    const xLeft = this.#xPos + left;
+    const xRight = this.#xPos + right;
+    const width = xRight - xLeft;
+
+    this.ctx.strokeStyle = 'black';
+    this.ctx.strokeRect(this.#xPos + left, this.#yPos + top, width, bottom);
   }
 
   checkCollision(objectFactory: ObjectFactory, gameState: GameState): CollisionType {
     const { objects } = objectFactory;
     if (this.#image !== null) {
-      const scaleFactor = this.#image.width / 500;
-      const [left, top, right] = this.#hitbox.map((v) => v * scaleFactor);
+      const [left, top, right] = this.#hitbox;
       const xLeft = this.#xPos + left;
       const xRight = this.#xPos + right;
       const yTop = this.#yPos + top;
@@ -97,8 +99,13 @@ export default class GarbageCan {
 
           if (item instanceof FallingGarbageBag) {
             gameState.score += 1;
+            if (gameState.score % BACKGROUND_SWITCH === 0) {
+              gameState.backgroundKey = gameState.backgroundKey === BackgroundKey.ONE
+                ? BackgroundKey.TWO
+                : BackgroundKey.ONE;
+            }
             objects.delete(i);
-            return 'cereal';
+            return 'garbageBag';
           }
         }
       }

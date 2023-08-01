@@ -1,9 +1,13 @@
-export default class GameState {
+import { BackgroundKey } from './imageCache';
+
+export class GameState {
   score: number;
 
   highscore: number;
 
   playerName: string | undefined;
+
+  backgroundKey: BackgroundKey;
 
   isGameRunning: boolean;
 
@@ -21,6 +25,7 @@ export default class GameState {
     this.score = 0;
     this.highscore = parseInt(localStorage.getItem('highscore') ?? '0', 10);
     this.playerName = localStorage.getItem('playername') ?? undefined;
+    this.backgroundKey = BackgroundKey.ONE;
     this.isGameRunning = false;
     this.isGameOver = false;
     this.isGameScreenDrawn = false;

@@ -1,4 +1,4 @@
-import Keys from './keys';
+import { Keys } from './keys';
 
 const MOVE_UP = 'moveup';
 const MOVE_DOWN = 'movedown';
@@ -13,7 +13,7 @@ const keyMap = new Map([
   [MOVE_DOWN, Keys.DOWN],
 ]);
 
-export default class Controller {
+export class Controller {
   #buttonPressed: Set<Keys | undefined>;
 
   public get buttonPressed(): Set<Keys | undefined> {
