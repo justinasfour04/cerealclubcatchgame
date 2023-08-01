@@ -1,13 +1,13 @@
-export async function loadImage(
-  image: string,
+export const loadImage = (
+  src: string,
   sx: number,
   sy: number,
   sw: number,
   sh: number,
   options?: ImageBitmapOptions | undefined,
-): Promise<ImageBitmap> {
+): Promise<ImageBitmap> => {
   const img: HTMLImageElement = new Image();
-  img.src = image;
+  img.src = src;
   return new Promise((resolve) => {
     img.onload = async () => {
       const bitmapImage = await createImageBitmap(
@@ -22,7 +22,19 @@ export async function loadImage(
       resolve(bitmapImage);
     };
   });
-}
+};
+
+export const loadBackground = (
+  src: string,
+): Promise<HTMLImageElement> => {
+  const img: HTMLImageElement = new Image();
+  img.src = src;
+  return new Promise((resolve) => {
+    img.onload = () => {
+      resolve(img);
+    };
+  });
+};
 
 export function randomNumber(a: number, b: number) {
   const min = a > b ? b : a;

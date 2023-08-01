@@ -1,4 +1,4 @@
-export default abstract class FallingObject {
+export abstract class FallingObject {
   protected yPos: number;
 
   constructor(
@@ -32,7 +32,14 @@ export default abstract class FallingObject {
         this.xPos -= this.w;
       }
       this.ctx.drawImage(this.image, this.xPos, this.yPos);
+      // this.drawCollisionBox();
     }
+  }
+
+  drawCollisionBox() {
+    const [x, y, w, h] = this.hitbox;
+    this.ctx.strokeStyle = 'black';
+    this.ctx.strokeRect(x, y, w, h);
   }
 
   update(secondsPassed: number): void {

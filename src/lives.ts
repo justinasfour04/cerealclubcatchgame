@@ -1,6 +1,6 @@
-import ImageCache, { CacheKey } from './imageCache';
+import { ImageCache, CacheKey } from './imageCache';
 
-export default class Lives {
+export class Lives {
   constructor(private ctx: CanvasRenderingContext2D) { }
 
   draw(lives: number) {

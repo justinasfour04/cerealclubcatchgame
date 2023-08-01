@@ -1,12 +1,12 @@
-import FallingBomb from './fallingBomb';
-import FallingCereal from './fallingCereal';
-import FallingObject from './fallingObject';
-import MaxHeap from './maxHeap';
+import { FallingBomb } from './fallingBomb';
+import { FallingGarbageBag } from './fallingGarbageBag';
+import { FallingObject } from './fallingObject';
+import { MaxHeap } from './maxHeap';
 import { randomNumber } from './util';
 
 const OBSTACLE_SPACING = 200;
 
-export default class ObjectFactory {
+export class ObjectFactory {
   latestObject: FallingObject;
 
   objects: MaxHeap<FallingObject>;
@@ -54,6 +54,6 @@ export default class ObjectFactory {
     const randomCharacter = randomNumber(0, 10000);
     return randomCharacter % 2 === 0
       ? new FallingBomb(this.ctx, randomX, randomDy)
-      : new FallingCereal(this.ctx, randomX, randomDy);
+      : new FallingGarbageBag(this.ctx, randomX, randomDy);
   }
 }
