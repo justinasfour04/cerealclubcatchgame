@@ -1,4 +1,4 @@
-import FallingObject from './fallingObject';
+import { FallingObject } from './fallingObject';
 
 export class MaxHeap<T extends FallingObject> {
   private heap: T[] = [];
