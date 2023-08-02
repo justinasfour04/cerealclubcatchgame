@@ -62,7 +62,7 @@ export class GarbageCan {
   draw() {
     this.ctx.drawImage(this.#image as ImageBitmap, this.#xPos, this.#yPos);
 
-    // this.drawCollisionBox();
+    this.drawCollisionBox();
   }
 
   drawCollisionBox() {

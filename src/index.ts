@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import '../static/stylesheet/index.css';
 
 import { ImageCache } from './imageCache';
@@ -6,12 +5,6 @@ import { GameState } from './gameState';
 import { GarbageCan } from './garbageCan';
 import { Lives } from './lives';
 import { ObjectFactory } from './obstacleFactory';
-
-const canvas = document.createElement('canvas');
-const ctx = canvas.getContext('2d');
-(ctx as CanvasRenderingContext2D).imageSmoothingEnabled = false;
-canvas.width = window.innerWidth < 1000 ? window.innerWidth / 1.1 : window.innerWidth / 2;
-canvas.height = window.innerHeight / 1.05;
 
 let gameState: GameState;
 let garbageBag: GarbageCan;
@@ -31,7 +24,10 @@ function update(secondsPassed: number = 1) {
   obstacleFactory.deleteObjectOffScreen();
 }
 
-async function draw() {
+async function draw(
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+) {
   if (ctx !== null) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(ImageCache.getBackground(gameState.backgroundKey), 0, 0);
@@ -41,7 +37,7 @@ async function draw() {
   }
 }
 
-function drawGameScreen() {
+function drawGameScreen(canvas: HTMLCanvasElement) {
   const container = document.getElementById('app');
   if (container !== null) {
     container.innerHTML = '';
@@ -93,7 +89,11 @@ function resetGame() {
   gameState.highscore = parseInt(localStorage.getItem('highscore') ?? '0', 10);
 }
 
-async function mainLoop(frameTime?: number) {
+async function mainLoop(
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  frameTime?: number,
+) {
   if (frameTime) {
     if (!then) {
       then = frameTime;
@@ -101,7 +101,7 @@ async function mainLoop(frameTime?: number) {
     elapsed = (frameTime - then) / 1000;
 
     if (!gameState.isGameScreenDrawn) {
-      drawGameScreen();
+      drawGameScreen(canvas);
       gameState.isGameScreenDrawn = true;
     }
 
@@ -117,24 +117,57 @@ async function mainLoop(frameTime?: number) {
     update(Math.min(elapsed, 0.1));
     setScore();
     obstacleFactory.create();
-    draw();
+    draw(canvas, ctx);
 
     then = frameTime;
-    window.requestAnimationFrame(mainLoop);
+    window.requestAnimationFrame((time) => mainLoop(canvas, ctx, time));
   } else {
-    window.requestAnimationFrame(mainLoop);
+    window.requestAnimationFrame((time) => mainLoop(canvas, ctx, time));
   }
 }
 
+function resizeCanvas(canvas: HTMLCanvasElement) {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function preventMotion(event: Event) {
+  window.scrollTo(0, 0);
+  event.preventDefault();
+  event.stopPropagation();
+}
+
 function init() {
+  window.addEventListener('scroll', preventMotion, false);
+  window.addEventListener('touchmove', preventMotion, false);
+
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  (ctx as CanvasRenderingContext2D).imageSmoothingEnabled = false;
+
+  window.addEventListener('resize', () => resizeCanvas(canvas), false);
+  window.addEventListener('orientationchange', () => resizeCanvas(canvas), false);
+  resizeCanvas(canvas);
+
+  return {
+    canvas,
+    ctx,
+  };
+}
+
+(async () => {
+  const {
+    canvas,
+    ctx,
+  } = init();
+  await ImageCache.loadAllImages(canvas);
+
   gameState = new GameState();
   garbageBag = new GarbageCan(ctx as CanvasRenderingContext2D);
   obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
   lives = new Lives(ctx as CanvasRenderingContext2D);
-}
 
-(async () => {
-  await ImageCache.loadAllImages(canvas);
-  init();
-  await mainLoop();
+  if (ctx !== null) {
+    await mainLoop(canvas, ctx);
+  }
 })();
