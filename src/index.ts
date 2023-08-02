@@ -40,25 +40,31 @@ async function draw(
 function drawGameScreen(canvas: HTMLCanvasElement) {
   const container = document.getElementById('app');
   if (container !== null) {
-    container.innerHTML = '';
+    if (container?.clientWidth < 1024) {
+      container.innerHTML = '';
 
-    const scoreDiv = document.createElement('div');
-    scoreDiv.className = 'score';
-    scoreDiv.style.width = canvas.width.toString(10);
+      const scoreDiv = document.createElement('div');
+      scoreDiv.className = 'score';
+      scoreDiv.style.width = canvas.width.toString(10);
 
-    const scoreText = document.createElement('p');
-    scoreText.className = 'scoreText';
-    scoreText.id = '_score';
+      const scoreText = document.createElement('p');
+      scoreText.className = 'scoreText';
+      scoreText.id = '_score';
 
-    const highscoreText = document.createElement('p');
-    highscoreText.className = 'scoreText';
-    highscoreText.id = '_highscore';
+      const highscoreText = document.createElement('p');
+      highscoreText.className = 'scoreText';
+      highscoreText.id = '_highscore';
 
-    scoreDiv.appendChild(scoreText);
-    scoreDiv.appendChild(highscoreText);
+      scoreDiv.appendChild(scoreText);
+      scoreDiv.appendChild(highscoreText);
 
-    container.appendChild(scoreDiv);
-    container.appendChild(canvas);
+      container.appendChild(scoreDiv);
+      container.appendChild(canvas);
+    } else {
+      const onlyForMobile = document.createElement('h1');
+      onlyForMobile.textContent = 'Only for mobile';
+      container.appendChild(onlyForMobile);
+    }
   }
 }
 

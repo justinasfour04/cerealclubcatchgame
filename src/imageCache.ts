@@ -33,7 +33,7 @@ export class ImageCache {
       500,
       324,
       {
-        resizeHeight: canvas.height / 6,
+        resizeWidth: canvas.width / 3,
         resizeQuality: 'high',
       },
     ));
@@ -44,7 +44,7 @@ export class ImageCache {
       243,
       225,
       {
-        resizeHeight: canvas.height / 14,
+        resizeWidth: canvas.width / 12,
         resizeQuality: 'high',
       },
     ));
@@ -55,7 +55,7 @@ export class ImageCache {
       210,
       251,
       {
-        resizeHeight: canvas.height / 8,
+        resizeWidth: canvas.width / 8,
         resizeQuality: 'high',
       },
     ));
@@ -66,7 +66,7 @@ export class ImageCache {
       251,
       251,
       {
-        resizeHeight: canvas.height / 6,
+        resizeWidth: canvas.width / 5,
         resizeQuality: 'high',
       },
     ));
