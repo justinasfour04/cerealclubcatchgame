@@ -32,7 +32,7 @@ export abstract class FallingObject {
         this.xPos -= this.w;
       }
       this.ctx.drawImage(this.image, this.xPos, this.yPos);
-      this.drawCollisionBox();
+      // this.drawCollisionBox();
     }
   }
 
