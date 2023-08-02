@@ -126,9 +126,10 @@ async function mainLoop(
   }
 }
 
-function resizeCanvas(canvas: HTMLCanvasElement) {
+async function resizeCanvas(canvas: HTMLCanvasElement) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  await ImageCache.loadAllImages(canvas);
 }
 
 function preventMotion(event: Event) {
@@ -137,7 +138,7 @@ function preventMotion(event: Event) {
   event.stopPropagation();
 }
 
-function init() {
+async function init() {
   window.addEventListener('scroll', preventMotion, false);
   window.addEventListener('touchmove', preventMotion, false);
 
@@ -147,7 +148,7 @@ function init() {
 
   window.addEventListener('resize', () => resizeCanvas(canvas), false);
   window.addEventListener('orientationchange', () => resizeCanvas(canvas), false);
-  resizeCanvas(canvas);
+  await resizeCanvas(canvas);
 
   return {
     canvas,
@@ -159,8 +160,7 @@ function init() {
   const {
     canvas,
     ctx,
-  } = init();
-  await ImageCache.loadAllImages(canvas);
+  } = await init();
 
   gameState = new GameState();
   garbageBag = new GarbageCan(ctx as CanvasRenderingContext2D);

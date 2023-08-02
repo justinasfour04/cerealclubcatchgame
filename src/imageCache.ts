@@ -4,7 +4,7 @@ import Heart from '../static/img/heart.png';
 import GarbageBag from '../static/img/garbage-bag.png';
 import Background1 from '../static/img/background1.png';
 import Background2 from '../static/img/background2.png';
-import { loadBackground, loadImage } from './util';
+import { loadImage } from './util';
 
 type CacheValue = ImageBitmap;
 
@@ -22,7 +22,7 @@ export enum BackgroundKey {
 }
 
 const cache: Map<CacheKey, CacheValue> = new Map();
-const backgrounds: Map<BackgroundKey, HTMLImageElement> = new Map();
+const backgrounds: Map<BackgroundKey, ImageBitmap> = new Map();
 
 export class ImageCache {
   static async loadAllImages(canvas: HTMLCanvasElement) {
@@ -71,15 +71,41 @@ export class ImageCache {
       },
     ));
 
-    backgrounds.set(BackgroundKey.ONE, await loadBackground(Background1));
-    backgrounds.set(BackgroundKey.TWO, await loadBackground(Background2));
+    backgrounds.set(
+      BackgroundKey.ONE,
+      await loadImage(
+        Background1,
+        0,
+        0,
+        897,
+        941,
+        {
+          resizeWidth: canvas.width,
+          resizeHeight: canvas.height,
+        },
+      ),
+    );
+    backgrounds.set(
+      BackgroundKey.TWO,
+      await loadImage(
+        Background2,
+        0,
+        0,
+        897,
+        941,
+        {
+          resizeWidth: canvas.width,
+          resizeHeight: canvas.height,
+        },
+      ),
+    );
   }
 
   static getImage(key: CacheKey) {
     return cache.get(key);
   }
 
-  static getBackground(key: BackgroundKey): HTMLImageElement {
-    return backgrounds.get(key) as HTMLImageElement;
+  static getBackground(key: BackgroundKey): ImageBitmap {
+    return backgrounds.get(key) as ImageBitmap;
   }
 }

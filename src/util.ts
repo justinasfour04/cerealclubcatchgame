@@ -24,18 +24,6 @@ export const loadImage = (
   });
 };
 
-export const loadBackground = (
-  src: string,
-): Promise<HTMLImageElement> => {
-  const img: HTMLImageElement = new Image();
-  img.src = src;
-  return new Promise((resolve) => {
-    img.onload = () => {
-      resolve(img);
-    };
-  });
-};
-
 export function randomNumber(a: number, b: number) {
   const min = a > b ? b : a;
   const max = a > b ? a : b;

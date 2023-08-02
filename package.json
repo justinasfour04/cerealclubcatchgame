@@ -10,7 +10,7 @@
     "deploy": "gh-pages -d dist",
     "start": "webpack serve --open --config webpack.dev.js",
     "watch": "webpack serve --open --watch --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js"
+    "build": "rm -rf dist && webpack --config webpack.prod.js"
   },
   "author": "Justin Asfour",
   "license": "UNLICENSED",
