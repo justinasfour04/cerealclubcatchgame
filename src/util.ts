@@ -1,3 +1,5 @@
+import { HitBox } from './types';
+
 export const loadImage = (
   src: string,
   sx: number,
@@ -30,4 +32,25 @@ export function randomNumber(a: number, b: number) {
   // Use below if final number doesn't need to be whole number
   // return Math.random() * (max - min + 1) + min;
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+export function drawCollisionBox(
+  ctx: CanvasRenderingContext2D,
+  hitbox: HitBox,
+): void {
+  const {
+    x1,
+    y1,
+    x2,
+    y2,
+  } = hitbox;
+  ctx.beginPath();
+  ctx.strokeStyle = 'black';
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y1);
+  ctx.lineTo(x2, y2);
+  ctx.lineTo(x1, y2);
+  ctx.lineTo(x1, y1);
+  ctx.stroke();
+  ctx.closePath();
 }

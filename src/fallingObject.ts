@@ -1,3 +1,6 @@
+import { HitBox } from './types';
+// import { drawCollisionBox } from './util';
+
 export abstract class FallingObject {
   protected yPos: number;
 
@@ -22,9 +25,7 @@ export abstract class FallingObject {
     return this.image?.height ?? 0;
   }
 
-  get hitbox(): number[] {
-    return [this.xPos, this.yPos, this.w, this.h];
-  }
+  abstract get hitbox(): HitBox;
 
   draw(): void {
     if (this.image !== null) {
@@ -32,14 +33,8 @@ export abstract class FallingObject {
         this.xPos -= this.w;
       }
       this.ctx.drawImage(this.image, this.xPos, this.yPos);
-      // this.drawCollisionBox();
+      // drawCollisionBox(this.ctx, this.hitbox);
     }
-  }
-
-  drawCollisionBox() {
-    const [x, y, w, h] = this.hitbox;
-    this.ctx.strokeStyle = 'black';
-    this.ctx.strokeRect(x, y, w, h);
   }
 
   update(secondsPassed: number): void {
