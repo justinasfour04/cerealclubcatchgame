@@ -1,4 +1,5 @@
 import '../static/stylesheet/index.css';
+import AppIcon from '../static/img/appIcon.png';
 
 import { ImageCache } from './imageCache';
 import { GameState } from './gameState';
@@ -61,8 +62,14 @@ function drawGameScreen(canvas: HTMLCanvasElement) {
       container.appendChild(scoreDiv);
       container.appendChild(canvas);
     } else {
-      const onlyForMobile = document.createElement('h1');
-      onlyForMobile.textContent = 'Only for mobile';
+      const onlyForMobile = document.createElement('div');
+      onlyForMobile.className = 'desktop-message';
+      const onlyForMobileImage = document.createElement('img');
+      const onlyForMobileText = document.createElement('h1');
+      onlyForMobileText.textContent = 'Only for mobile';
+      onlyForMobileImage.src = AppIcon;
+      onlyForMobile.appendChild(onlyForMobileImage);
+      onlyForMobile.appendChild(onlyForMobileText);
       container.appendChild(onlyForMobile);
     }
   }

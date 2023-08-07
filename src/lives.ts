@@ -9,8 +9,8 @@ export class Lives {
       for (let i = 1; i <= lives; i += 1) {
         this.ctx.drawImage(
           heart,
-          (this.ctx.canvas.width - 5 * heart.width) + heart.width * 1.1 * i,
-          20,
+          (this.ctx.canvas.width - 5 * heart.width * 0.95) + heart.width * 1.1 * i,
+          10,
         );
       }
     }
