@@ -25,6 +25,8 @@ export class ObjectFactory {
   reset(score: number) {
     this.latestObject = this.initObject(score);
     this.objects = new MaxHeap(this.latestObject);
+    this.dyGarbageBagModifier = 0;
+    this.dyBombModifier = 0;
   }
 
   create(score: number) {
