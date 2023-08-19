@@ -92,12 +92,12 @@ function setScore() {
 }
 
 function lostLife() {
-  obstacleFactory.reset();
+  obstacleFactory.reset(gameState.score);
 }
 
 function resetGame() {
   garbageBag.reset();
-  obstacleFactory.reset();
+  obstacleFactory.reset(gameState.score);
   gameState.score = 0;
   gameState.highscore = parseInt(localStorage.getItem('highscore') ?? '0', 10);
 }
@@ -129,7 +129,7 @@ async function mainLoop(
 
     update(Math.min(elapsed, 0.1));
     setScore();
-    obstacleFactory.create();
+    obstacleFactory.create(gameState.score);
     draw(canvas, ctx);
 
     then = frameTime;
@@ -177,7 +177,7 @@ async function init() {
 
   gameState = new GameState();
   garbageBag = new GarbageCan(ctx as CanvasRenderingContext2D);
-  obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
+  obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D, gameState.score);
   lives = new Lives(ctx as CanvasRenderingContext2D);
 
   if (ctx !== null) {
