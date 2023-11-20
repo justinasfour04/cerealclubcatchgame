@@ -1,4 +1,3 @@
-import '../static/stylesheet/index.css';
 import AppIcon from '../static/img/appIcon.png';
 
 import { ImageCache } from './imageCache';
@@ -41,27 +40,7 @@ async function draw(
 function drawGameScreen(canvas: HTMLCanvasElement) {
   const container = document.getElementById('app');
   if (container !== null) {
-    if (container?.clientWidth < 1024) {
-      container.innerHTML = '';
-
-      const scoreDiv = document.createElement('div');
-      scoreDiv.className = 'score';
-      scoreDiv.style.width = canvas.width.toString(10);
-
-      const scoreText = document.createElement('p');
-      scoreText.className = 'scoreText';
-      scoreText.id = '_score';
-
-      const highscoreText = document.createElement('p');
-      highscoreText.className = 'scoreText';
-      highscoreText.id = '_highscore';
-
-      scoreDiv.appendChild(scoreText);
-      scoreDiv.appendChild(highscoreText);
-
-      container.appendChild(scoreDiv);
-      container.appendChild(canvas);
-    } else {
+    if (container?.clientWidth > 1024) {
       const onlyForMobile = document.createElement('div');
       onlyForMobile.className = 'desktop-message';
       const onlyForMobileImage = document.createElement('img');
@@ -71,24 +50,17 @@ function drawGameScreen(canvas: HTMLCanvasElement) {
       onlyForMobile.appendChild(onlyForMobileImage);
       onlyForMobile.appendChild(onlyForMobileText);
       container.appendChild(onlyForMobile);
+    } else {
+      container.appendChild(canvas);
     }
   }
 }
 
-function setScore() {
-  const highscoreValue = document.createElement('span');
-  highscoreValue.textContent = gameState.highscore.toString(10);
-  const highscore = document.getElementById('_highscore');
-  if (highscore) {
-    highscore.innerHTML = `High Score: ${highscoreValue.innerHTML}`;
-  }
-
-  const scoreValue = document.createElement('span');
-  scoreValue.textContent = gameState.score.toString(10);
-  const score = document.getElementById('_score');
-  if (score) {
-    score.innerHTML = `Score: ${scoreValue.innerHTML}`;
-  }
+function setScore(ctx: CanvasRenderingContext2D) {
+  ctx.font = '1rem Heebo';
+  ctx.fillStyle = 'black';
+  ctx.fillText(`Score: ${gameState.score}`, 15, 25);
+  ctx.fillText(`High Score: ${gameState.highscore}`, 15, 45);
 }
 
 function lostLife() {
@@ -128,9 +100,9 @@ async function mainLoop(
     }
 
     update(Math.min(elapsed, 0.1));
-    setScore();
     obstacleFactory.create();
     draw(canvas, ctx);
+    setScore(ctx);
 
     then = frameTime;
     window.requestAnimationFrame((time) => mainLoop(canvas, ctx, time));
