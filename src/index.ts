@@ -1,3 +1,4 @@
+import '../static/stylesheet/index.css';
 import AppIcon from '../static/img/appIcon.png';
 
 import { ImageCache } from './imageCache';
@@ -57,7 +58,7 @@ function drawGameScreen(canvas: HTMLCanvasElement) {
 }
 
 function setScore(ctx: CanvasRenderingContext2D) {
-  ctx.font = '1rem Heebo';
+  ctx.font = '1rem Archivo Black';
   ctx.fillStyle = 'black';
   ctx.fillText(`Score: ${gameState.score}`, 15, 25);
   ctx.fillText(`High Score: ${gameState.highscore}`, 15, 45);
@@ -141,7 +142,7 @@ async function init() {
   };
 }
 
-(async () => {
+async function startGame() {
   const {
     canvas,
     ctx,
@@ -155,4 +156,8 @@ async function init() {
   if (ctx !== null) {
     await mainLoop(canvas, ctx);
   }
-})();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  startGame();
+});
