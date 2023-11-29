@@ -15,6 +15,16 @@ let lives: Lives;
 let then: number;
 let elapsed: number;
 
+const font = new FontFace(
+  'Rubik',
+  'url(https://fonts.gstatic.com/s/rubik/v28/iJWZBXyIfDnIV5PNhY1KTN7Z-Yh-B4iFV0U1.woff2)',
+  {
+    weight: '400',
+    style: 'normal',
+    unicodeRange: 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+  },
+);
+
 async function saveHighscore() {
   const highscore = Math.max(gameState.score, gameState.highscore);
   localStorage.setItem('highscore', highscore.toString(10));
@@ -58,7 +68,7 @@ function drawGameScreen(canvas: HTMLCanvasElement) {
 }
 
 function setScore(ctx: CanvasRenderingContext2D) {
-  ctx.font = '1rem Archivo Black';
+  ctx.font = '1rem Rubik';
   ctx.fillStyle = 'black';
   ctx.fillText(`Score: ${gameState.score}`, 15, 25);
   ctx.fillText(`High Score: ${gameState.highscore}`, 15, 45);
@@ -152,6 +162,9 @@ async function startGame() {
   garbageBag = new GarbageCan(ctx as CanvasRenderingContext2D);
   obstacleFactory = new ObjectFactory(ctx as CanvasRenderingContext2D);
   lives = new Lives(ctx as CanvasRenderingContext2D);
+
+  const loadedFont = await font.load();
+  document.fonts.add(loadedFont);
 
   if (ctx !== null) {
     await mainLoop(canvas, ctx);
