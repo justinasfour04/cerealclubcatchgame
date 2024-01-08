@@ -39,13 +39,34 @@ export class GarbageCan {
     this.#xPos = canvas.width / 2 - this.#image.width / 2;
     this.#yPos = canvas.height - this.#image.height;
     this.#lives = NUM_LIVES;
+
     this.#sounds = {
       splat: [
-        new Howl({ src: [splat1] }),
-        new Howl({ src: [splat2] }),
-        new Howl({ src: [splat3] }),
+        new Howl({
+          src: splat1,
+          onplayerror: () => {
+            this.#sounds.splat[0].once('unlock', () => this.#sounds.splat[0].play());
+          },
+        }),
+        new Howl({
+          src: splat2,
+          onplayerror: () => {
+            this.#sounds.splat[1].once('unlock', () => this.#sounds.splat[1].play());
+          },
+        }),
+        new Howl({
+          src: [splat3],
+          onplayerror: () => {
+            this.#sounds.splat[2].once('unlock', () => this.#sounds.splat[2].play());
+          },
+        }),
       ],
-      bombHit: new Howl({ src: [bombHit] }),
+      bombHit: new Howl({
+        src: [bombHit],
+        onplayerror: () => {
+          this.#sounds.bombHit.once('unlock', () => this.#sounds.bombHit.play());
+        },
+      }),
     };
 
     window.addEventListener('mousemove', (event) => {

@@ -33,4 +33,13 @@ export class GameState {
     this.isGameOverDrawn = false;
     this.isInMenu = true;
   }
+
+  reset() {
+    this.isGameRunning = false;
+    this.isGameOver = false;
+    this.isGameScreenDrawn = false;
+    this.isGameMenuDrawn = false;
+    this.isGameOverDrawn = false;
+    this.isInMenu = true;
+  }
 }

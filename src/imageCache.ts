@@ -24,6 +24,37 @@ export enum BackgroundKey {
 const cache: Map<CacheKey, CacheValue> = new Map();
 const backgrounds: Map<BackgroundKey, ImageBitmap> = new Map();
 
+const resizeWidth = (canvas: HTMLCanvasElement, maxWidth: number) => {
+  if (canvas.width > 1300) {
+    return maxWidth;
+  }
+
+  if (window.screen.orientation.angle === 90 || window.screen.orientation.angle === -90) {
+    if (canvas.width <= 1300 && canvas.width > 1200) {
+      return maxWidth * 0.95;
+    }
+    if (canvas.width <= 1200 && canvas.width > 1100) {
+      return maxWidth * 0.9;
+    }
+    if (canvas.width <= 1000 && canvas.width > 900) {
+      return maxWidth * 0.85;
+    }
+    return maxWidth * 0.8;
+  }
+
+  if (canvas.width <= 1300 && canvas.width > 1200) {
+    return maxWidth * 1.2;
+  }
+  if (canvas.width <= 1200 && canvas.width > 1100) {
+    return maxWidth * 1.4;
+  }
+  if (canvas.width <= 1000 && canvas.width > 900) {
+    return maxWidth * 1.5;
+  }
+
+  return maxWidth * 1.8;
+};
+
 export class ImageCache {
   static async loadAllImages(canvas: HTMLCanvasElement) {
     cache.set(CacheKey.GARBAGE_CAN, await loadImage(
@@ -33,7 +64,7 @@ export class ImageCache {
       500,
       324,
       {
-        resizeWidth: canvas.width / 3,
+        resizeWidth: resizeWidth(canvas, 175),
         resizeQuality: 'high',
       },
     ));
@@ -44,7 +75,7 @@ export class ImageCache {
       243,
       225,
       {
-        resizeWidth: canvas.width / 12,
+        resizeWidth: resizeWidth(canvas, 60),
         resizeQuality: 'high',
       },
     ));
@@ -55,7 +86,7 @@ export class ImageCache {
       210,
       251,
       {
-        resizeWidth: canvas.width / 8,
+        resizeWidth: resizeWidth(canvas, 75),
         resizeQuality: 'high',
       },
     ));
@@ -66,7 +97,7 @@ export class ImageCache {
       251,
       251,
       {
-        resizeWidth: canvas.width / 5,
+        resizeWidth: resizeWidth(canvas, 100),
         resizeQuality: 'high',
       },
     ));
