@@ -24,35 +24,11 @@ export enum BackgroundKey {
 const cache: Map<CacheKey, CacheValue> = new Map();
 const backgrounds: Map<BackgroundKey, ImageBitmap> = new Map();
 
-const resizeWidth = (canvas: HTMLCanvasElement, maxWidth: number) => {
-  if (canvas.width > 1300) {
-    return maxWidth;
-  }
-
-  if (window.screen.orientation.angle === 90 || window.screen.orientation.angle === -90) {
-    if (canvas.width <= 1300 && canvas.width > 1200) {
-      return maxWidth * 0.95;
-    }
-    if (canvas.width <= 1200 && canvas.width > 1100) {
-      return maxWidth * 0.9;
-    }
-    if (canvas.width <= 1000 && canvas.width > 900) {
-      return maxWidth * 0.85;
-    }
-    return maxWidth * 0.8;
-  }
-
-  if (canvas.width <= 1300 && canvas.width > 1200) {
-    return maxWidth * 1.2;
-  }
-  if (canvas.width <= 1200 && canvas.width > 1100) {
-    return maxWidth * 1.4;
-  }
-  if (canvas.width <= 1000 && canvas.width > 900) {
-    return maxWidth * 1.5;
-  }
-
-  return maxWidth * 1.8;
+const rem = (remValue: number): number => {
+  const {
+    fontSize,
+  } = window.getComputedStyle(document.body);
+  return remValue * parseInt(fontSize, 10);
 };
 
 export class ImageCache {
@@ -64,7 +40,7 @@ export class ImageCache {
       500,
       324,
       {
-        resizeWidth: resizeWidth(canvas, 175),
+        resizeWidth: rem(12),
         resizeQuality: 'high',
       },
     ));
@@ -75,7 +51,7 @@ export class ImageCache {
       243,
       225,
       {
-        resizeWidth: resizeWidth(canvas, 60),
+        resizeWidth: rem(4),
         resizeQuality: 'high',
       },
     ));
@@ -86,7 +62,7 @@ export class ImageCache {
       210,
       251,
       {
-        resizeWidth: resizeWidth(canvas, 75),
+        resizeWidth: rem(6),
         resizeQuality: 'high',
       },
     ));
@@ -97,7 +73,7 @@ export class ImageCache {
       251,
       251,
       {
-        resizeWidth: resizeWidth(canvas, 100),
+        resizeWidth: rem(8),
         resizeQuality: 'high',
       },
     ));

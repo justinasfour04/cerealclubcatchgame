@@ -89,10 +89,10 @@ function drawGameScreen(canvas: HTMLCanvasElement) {
 }
 
 function setScore(ctx: CanvasRenderingContext2D) {
-  ctx.font = '4rem Archivo';
+  ctx.font = '3rem Archivo';
   ctx.fillStyle = 'black';
-  ctx.fillText(`Score: ${gameState.score}`, 15, 50);
-  ctx.fillText(`High Score: ${gameState.highscore}`, 15, 100);
+  ctx.fillText(`Score: ${gameState.score}`, 15, 25);
+  ctx.fillText(`High Score: ${gameState.highscore}`, 15, 50);
 }
 
 function loseAHeart() {

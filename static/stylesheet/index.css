@@ -4,44 +4,6 @@ body {
   margin: 0;
 }
 
-body {
-  position: relative;
-  display: initial;
-}
-
-canvas {
-  touch-action: none;
-}
-
-body::-webkit-scrollbar,
-.board-wrapper::-webkit-scrollbar {
-  display: none;
-}
-
-.mainMenuContainer {
-  background-image: url('../img/background1.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10rem;
-}
-
-.mainMenuTitle {
-  font-size: 10rem;
-}
-
-.mainMenuButton {
-  font-size: 10rem;
-  border-radius: 10rem;
-  width: 40rem;
-  padding: 1rem;
-}
-
 html {
   font-family: 'Archivo';
   font-size: 62.5%;
@@ -69,4 +31,49 @@ html {
   @media only screen and (max-width: 350px) {
     font-size: 32%;
   }
+}
+
+body {
+  position: relative;
+  display: initial;
+}
+
+canvas {
+  touch-action: none;
+}
+
+body::-webkit-scrollbar,
+.board-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.mainMenuContainer {
+  background-image: url('../img/background1.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5rem;
+}
+
+.mainMenuTitle {
+  font-size: 8rem;
+}
+
+.mainMenuButton {
+  font-size: 6rem;
+  border-radius: 10rem;
+  width: 20rem;
+  padding: 1rem;
+  color: black;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0,0,0,0.8);
+}
+
+.mainMenuButton:hover {
+  box-shadow: none;
+  transform: translateY(1rem);
 }
